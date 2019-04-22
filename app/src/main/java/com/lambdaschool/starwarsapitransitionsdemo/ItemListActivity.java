@@ -88,7 +88,7 @@ public class ItemListActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                 Person person    = null;
+                 Person person;
                 int         counter   = 1;
                 int         failCount = 0;
                 do {
@@ -108,10 +108,10 @@ public class ItemListActivity extends AppCompatActivity {
                 } while (person != null || failCount < 2);
             }
         }).start();
-        /*new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                SwApiObject starship    = null;
+                Starship starship;
                 int         counter   = 1;
                 int         failCount = 0;
                 do {
@@ -128,9 +128,9 @@ public class ItemListActivity extends AppCompatActivity {
                     } else {
                         ++failCount;
                     }
-                } while (starship != null || failCount < 2);
+                } while (starship != null || failCount < 5);
             }
-        }).start();*/
+        }).start();
     }
 
     public static class SimpleItemRecyclerViewAdapter
@@ -180,6 +180,8 @@ public class ItemListActivity extends AppCompatActivity {
             mParentActivity = parent;
             mTwoPane = twoPane;
         }
+
+
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

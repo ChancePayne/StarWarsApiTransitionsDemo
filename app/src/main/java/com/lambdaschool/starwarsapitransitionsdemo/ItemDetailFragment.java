@@ -51,7 +51,11 @@ public class ItemDetailFragment extends Fragment {
                             mItem.getCategory(),
                             mItem.getId())));*/
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.getName());
+                if(mItem.getCategory().equals(DrawableResolver.CHARACTER)) {
+                    appBarLayout.setTitle(mItem.getName());
+                } else if (mItem.getCategory().equals(DrawableResolver.STARSHIP)) {
+                    appBarLayout.setTitle(((Starship) mItem).getCostInCredits());
+                }
             }
         }
     }
