@@ -3,14 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
     <!--S04M03-22 add transition name to shared elements-->
     <ImageView
         android:id="@+id/item_image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="16dp"
-        android:layout_weight="9"
+        android:layout_weight="4"
         android:adjustViewBounds="true"
         android:textIsSelectable="true"
         android:transitionName="image_transition"
@@ -20,5 +21,6 @@
         android:id="@+id/item_text"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        android:padding="16dp"/>
 </LinearLayout>

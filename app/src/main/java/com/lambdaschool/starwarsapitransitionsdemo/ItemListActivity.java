@@ -85,6 +85,7 @@ public class ItemListActivity extends AppCompatActivity {
 
     // S04M03-7 write a method to retreive all the data
     private void getData() {
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -108,6 +109,8 @@ public class ItemListActivity extends AppCompatActivity {
                 } while (person != null || failCount < 2);
             }
         }).start();
+
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -128,9 +131,10 @@ public class ItemListActivity extends AppCompatActivity {
                     } else {
                         ++failCount;
                     }
-                } while (starship != null || failCount < 2);
+                } while (starship != null || failCount < 3);
             }
         }).start();
+
     }
 
     public static class SimpleItemRecyclerViewAdapter

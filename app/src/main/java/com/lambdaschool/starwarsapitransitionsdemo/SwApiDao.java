@@ -10,7 +10,7 @@ public class SwApiDao {
     private static final String STARSHIP_URL = BASE_URL + "starships/";
 
     // S04M03-5 write method to get person
-    public static SwApiObject getPerson(int id) {
+    public static Person getPerson(int id) {
         final String result = NetworkAdapter.httpRequest(PERSON_URL + id);
 
         Person object = null;
@@ -33,14 +33,20 @@ public class SwApiDao {
         return object;
     }
 
-    public static SwApiObject getStarship(int id) {
+    public static Starship getStarship(int id) {
         final String result = NetworkAdapter.httpRequest(STARSHIP_URL + id);
 
-        SwApiObject object = null;
+        Starship object = null;
         try {
             JSONObject json = new JSONObject(result);
 
-            object = new SwApiObject(id, json.getString("name"));
+            final String name = json.getString("name");
+            final String model = json.getString("model");
+            final String manufacturer = json.getString("manufacturer");
+            final String cost = json.getString("cost_in_credits");
+            final String length = json.getString("length");
+
+            object = new Starship(id, name, model, manufacturer, cost, length);
             object.setCategory(DrawableResolver.STARSHIP);
 
         } catch (JSONException e) {
