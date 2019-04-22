@@ -1,5 +1,7 @@
 package com.lambdaschool.starwarsapitransitionsdemo;
 
+import android.support.annotation.NonNull;
+
 public class Person extends SwApiObject {
 
     private String height, mass, hairColor, skinColor, eyeColor;
@@ -35,5 +37,11 @@ public class Person extends SwApiObject {
 
     public String getEyeColor() {
         return eyeColor;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s, is %scm tall, they have %s skin, and %s hair with " +
+                "%s eyes.", this.name, height, skinColor, hairColor, eyeColor);
     }
 }
