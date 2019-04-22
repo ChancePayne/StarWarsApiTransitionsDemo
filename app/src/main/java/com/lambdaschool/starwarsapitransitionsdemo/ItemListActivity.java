@@ -83,12 +83,12 @@ public class ItemListActivity extends AppCompatActivity {
         getData();
     }
 
-    // S04M03-7 write a method to retreive all the data
+    // S04M03-7 write a method to retrieve all the data
     private void getData() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                SwApiObject person    = null;
+                 Person person    = null;
                 int         counter   = 1;
                 int         failCount = 0;
                 do {
