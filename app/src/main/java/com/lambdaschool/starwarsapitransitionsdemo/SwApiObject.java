@@ -5,7 +5,7 @@ import java.io.Serializable;
 // S04M03-3 Add Model Object
 public class SwApiObject implements Serializable {
     private int id;
-    private String category, name;
+    protected String category, name;
 
     public SwApiObject(int id, String name) {
         this.id = id;

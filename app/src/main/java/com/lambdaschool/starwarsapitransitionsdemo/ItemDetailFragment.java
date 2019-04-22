@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 /**
  * A fragment representing a single Item detail screen.
  * This fragment is either contained in a {@link ItemListActivity}
@@ -64,11 +66,13 @@ public class ItemDetailFragment extends Fragment {
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             // S04M03-20 set content to be our drawable
-            ((ImageView) rootView.findViewById(R.id.item_detail)).setImageDrawable(
+            ((ImageView) rootView.findViewById(R.id.item_image)).setImageDrawable(
                     rootView.getContext().getDrawable(
                             DrawableResolver.getDrawableId(
                                     mItem.getCategory(),
                                     mItem.getId())));
+
+            ((TextView)rootView.findViewById(R.id.item_text)).setText(mItem.toString());
         }
 
         return rootView;
