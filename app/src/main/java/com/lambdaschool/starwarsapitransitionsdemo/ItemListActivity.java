@@ -112,7 +112,7 @@ public class ItemListActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                SwApiObject starship    = null;
+                Starship starship    = null;
                 int         counter   = 1;
                 int         failCount = 0;
                 do {

@@ -34,14 +34,19 @@ public class SwApiDao {
         return object;
     }
 
-    public static SwApiObject getStarship(int id) {
+    public static Starship getStarship(int id) {
         final String result = NetworkAdapter.httpRequest(STARSHIP_URL + id);
 
-        SwApiObject object = null;
+        Starship object = null;
         try {
             JSONObject json = new JSONObject(result);
 
-            object = new SwApiObject(id, json.getString("name"));
+            String name = json.getString("name");
+            String model = json.getString("model");
+            String manufacturer = json.getString("manufacturer");
+            String cost = json.getString("cost_in_credits");
+            String length = json.getString("length");
+            object = new Starship(id, name,model,manufacturer,cost,length);
             object.setCategory(DrawableResolver.STARSHIP);
 
         } catch (JSONException e) {
