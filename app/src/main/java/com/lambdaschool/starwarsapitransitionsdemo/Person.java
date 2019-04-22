@@ -38,4 +38,9 @@ public class Person extends SwApiObject {
         return eyeColor;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s, is at %scm tall, they have %s skin, and %s hair with %s eyes.",
+                this.name, this.height, this.skinColor, this.hairColor, this.eyeColor);
+    }
 }
