@@ -108,7 +108,7 @@ public class ItemListActivity extends AppCompatActivity {
                 } while (person != null || failCount < 2);
             }
         }).start();
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 SwApiObject starship    = null;
@@ -130,7 +130,7 @@ public class ItemListActivity extends AppCompatActivity {
                     }
                 } while (starship != null || failCount < 2);
             }
-        }).start();
+        }).start();*/
     }
 
     public static class SimpleItemRecyclerViewAdapter

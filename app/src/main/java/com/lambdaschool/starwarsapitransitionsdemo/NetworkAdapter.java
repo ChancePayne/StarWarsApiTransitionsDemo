@@ -50,6 +50,9 @@ public class NetworkAdapter {
                 }
             }
 
+            connection.setConnectTimeout(3000);
+            connection.setReadTimeout(3000);
+
             // S03M03-10 add support for different types of request
             if((requestMethod.equals(POST) || requestMethod.equals(PUT)) && requestBody != null) {
                 // S03M03-11 write body of post request
@@ -80,6 +83,8 @@ public class NetworkAdapter {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (inputStream != null) {
