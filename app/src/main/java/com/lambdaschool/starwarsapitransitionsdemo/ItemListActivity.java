@@ -111,7 +111,7 @@ public class ItemListActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                SwApiObject starship    = null;
+                Starship starship    = null;
                 int         counter   = 1;
                 int         failCount = 0;
                 do {
@@ -128,7 +128,7 @@ public class ItemListActivity extends AppCompatActivity {
                     } else {
                         ++failCount;
                     }
-                } while (starship != null || failCount < 2);
+                } while (starship != null || failCount < 5);
             }
         }).start();
     }
@@ -180,6 +180,8 @@ public class ItemListActivity extends AppCompatActivity {
             mParentActivity = parent;
             mTwoPane = twoPane;
         }
+
+
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

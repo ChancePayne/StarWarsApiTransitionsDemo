@@ -53,7 +53,11 @@ public class ItemDetailFragment extends Fragment {
                             mItem.getCategory(),
                             mItem.getId())));*/
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.getName());
+                if(mItem instanceof Person) {
+                    appBarLayout.setTitle(mItem.getName());
+                }else if(mItem instanceof Starship){
+                    appBarLayout.setTitle(((Starship) mItem).getModel());
+                }
             }
         }
     }
