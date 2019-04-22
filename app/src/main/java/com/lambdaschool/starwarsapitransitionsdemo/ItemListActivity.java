@@ -89,7 +89,7 @@ public class ItemListActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                SwApiObject person    = null;
+                Person person    = null;
                 int         counter   = 1;
                 int         failCount = 0;
                 do {
