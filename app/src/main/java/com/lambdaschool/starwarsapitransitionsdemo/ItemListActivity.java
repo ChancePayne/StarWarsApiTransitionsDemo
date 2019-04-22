@@ -34,6 +34,7 @@ import java.util.List;
 // S04M03-6 replace all references to dummycontent with out model object
 public class ItemListActivity extends AppCompatActivity {
 
+
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -88,7 +89,7 @@ public class ItemListActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                SwApiObject person    = null;
+                Person person    = null;
                 int         counter   = 1;
                 int         failCount = 0;
                 do {

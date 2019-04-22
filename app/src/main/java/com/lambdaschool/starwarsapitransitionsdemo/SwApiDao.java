@@ -10,14 +10,21 @@ public class SwApiDao {
     private static final String STARSHIP_URL = BASE_URL + "starships/";
 
     // S04M03-5 write method to get person
-    public static SwApiObject getPerson(int id) {
+    public static Person getPerson(int id) {
         final String result = NetworkAdapter.httpRequest(PERSON_URL + id);
 
-        SwApiObject object = null;
+        Person object = null;
         try {
             JSONObject json = new JSONObject(result);
 
-            object = new SwApiObject(id, json.getString("name"));
+            final String name = json.getString("name");
+            final String height = json.getString("height");
+            final String mass = json.getString("mass");
+            final String hairColor = json.getString("hair_color");
+            final String skinColor = json.getString("skin_color");
+            final String eyeColor = json.getString("eye_color");
+
+            object = new Person(id, name,height,mass,hairColor,skinColor,eyeColor);
             object.setCategory(DrawableResolver.CHARACTER);
 
         } catch (JSONException e) {
