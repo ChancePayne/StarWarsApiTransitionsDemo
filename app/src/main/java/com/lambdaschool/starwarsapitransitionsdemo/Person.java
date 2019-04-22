@@ -2,7 +2,7 @@ package com.lambdaschool.starwarsapitransitionsdemo;
 
 public class Person extends SwApiObject {
 
-    private String height, mass, hairColor, skinColor, eyeColor;
+    protected String height, mass, hairColor, skinColor, eyeColor;
 
     public Person(int id, String name) {
         super(id, name);
@@ -35,5 +35,10 @@ public class Person extends SwApiObject {
 
     public String getEyeColor() {
         return eyeColor;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s, is %scm tall, they have %s skin, and %s hair with %s eyes.",this.name, this.height,this.skinColor,this.hairColor,this.eyeColor);
     }
 }

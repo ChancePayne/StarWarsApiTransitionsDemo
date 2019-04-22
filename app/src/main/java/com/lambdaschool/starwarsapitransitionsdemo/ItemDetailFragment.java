@@ -44,7 +44,7 @@ public class ItemDetailFragment extends Fragment {
 //            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
             // S04M03-19 pull the object from the arguments
             mItem = (SwApiObject) getArguments().getSerializable(ARG_ITEM_ID);
-            Activity                activity     = this.getActivity();
+            Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             /*appBarLayout.setBackground(getContext().getDrawable(
                     DrawableResolver.getDrawableId(
@@ -57,18 +57,20 @@ public class ItemDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.item_detail, container, false);
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             // S04M03-20 set content to be our drawable
-            ((ImageView) rootView.findViewById(R.id.item_detail)).setImageDrawable(
+            ((ImageView) rootView.findViewById(R.id.item_image)).setImageDrawable(
                     rootView.getContext().getDrawable(
                             DrawableResolver.getDrawableId(
                                     mItem.getCategory(),
                                     mItem.getId())));
+
+            ((TextView) rootView.findViewById(R.id.item_text)).setText(mItem.toString());
         }
 
         return rootView;
