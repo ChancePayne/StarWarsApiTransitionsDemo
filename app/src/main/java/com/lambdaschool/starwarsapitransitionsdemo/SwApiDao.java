@@ -18,13 +18,13 @@ public class SwApiDao {
             JSONObject json = new JSONObject(result);
 
             final String name = json.getString("name");
-            final String height=json.getString("height");
-            final String mass=json.getString("mass");
-            final String hairColor=json.getString("hair_color");
-            final String skinColor=json.getString("skin_color");
-            final String eyeColor=json.getString("eye_color");
+            final String height = json.getString("height");
+            final String mass = json.getString("mass");
+            final String hairColor = json.getString("hair_color");
+            final String skinColor = json.getString("skin_color");
+            final String eyeColor = json.getString("eye_color");
 
-            object = new Person(id, name, height, mass, hairColor,skinColor,eyeColor);
+            object = new Person(id, name, height, mass, hairColor, skinColor, eyeColor);
             object.setCategory(DrawableResolver.CHARACTER);
 
         } catch (JSONException e) {
@@ -34,14 +34,20 @@ public class SwApiDao {
         return object;
     }
 
-    public static SwApiObject getStarship(int id) {
+    public static Starship getStarship(int id) {
         final String result = NetworkAdapter.httpRequest(STARSHIP_URL + id);
 
-        SwApiObject object = null;
+        Starship object = null;
         try {
             JSONObject json = new JSONObject(result);
 
-            object = new SwApiObject(id, json.getString("name"));
+            final String name = json.getString("name");
+            final String model = json.getString("model");
+            final String manufacturer = json.getString("manufacturer");
+            final String cost = json.getString("cost_in_credits");
+            final String length = json.getString("length");
+
+            object = new Starship(id, name, model, manufacturer, cost, length);
             object.setCategory(DrawableResolver.STARSHIP);
 
         } catch (JSONException e) {
