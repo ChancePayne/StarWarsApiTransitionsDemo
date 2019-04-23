@@ -3,7 +3,7 @@ package com.lambdaschool.starwarsapitransitionsdemo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Person extends SwApiObject implements JSONable{
+public class Person extends SwApiObject implements JSONable {
 
     protected String height, mass, hairColor, skinColor, eyeColor;
 
@@ -50,11 +50,11 @@ public class Person extends SwApiObject implements JSONable{
         JSONObject json = new JSONObject();
         try {
             json.put("name", this.name);
-
-        json.put("height", this.height);
-        json.put("hair_color", this.hairColor);
-        json.put("skin_color", this.skinColor);
-        json.put("eye_color", this.eyeColor);
+            json.put("height", this.height);
+            json.put("hair_color", this.hairColor);
+            json.put("skin_color", this.skinColor);
+            json.put("eye_color", this.eyeColor);
+            return json.toString();
         } catch (JSONException e) {
             e.printStackTrace();
             return "";
@@ -63,24 +63,23 @@ public class Person extends SwApiObject implements JSONable{
 
     @Override
     public void fromJsonString(String jsonString) {
-        JSONObject json = new JSONObject(result);
-
-        final String name;
+        String name;
         try {
+            JSONObject json = new JSONObject(jsonString);
             name = json.getString("name");
-
-        final String height = json.getString("height");
-        final String mass = json.getString("mass");
-        final String hairColor = json.getString("hair_color");
-        final String skinColor = json.getString("skin_color");
-        final String eyeColor = json.getString("eye_color");
-        String[] urlParts=json.getString("url").split("/");
-        this.id=Integer.parseInt(urlParts[urlParts.length-2]);
+            final String height = json.getString("height");
+            final String mass = json.getString("mass");
+            final String hairColor = json.getString("hair_color");
+            final String skinColor = json.getString("skin_color");
+            final String eyeColor = json.getString("eye_color");
+            String[] urlParts = json.getString("url").split("/");
+            this.id = Integer.parseInt(urlParts[urlParts.length - 2]);
+            object = new Person(id, name, height, mass, hairColor, skinColor, eyeColor);
         } catch (JSONException e) {
             e.printStackTrace();
             return "";
         }
 
-        object = new Person(id, name, height, mass, hairColor, skinColor, eyeColor);
+
     }
 }

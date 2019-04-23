@@ -1,6 +1,6 @@
 package com.lambdaschool.starwarsapitransitionsdemo;
 
-public class Planet extends SwApiObject {
+public class Planet extends SwApiObject implements JSONable {
     /*	"name": "Yavin IV",
 	"rotation_period": "24",
 	"orbital_period": "4818",
