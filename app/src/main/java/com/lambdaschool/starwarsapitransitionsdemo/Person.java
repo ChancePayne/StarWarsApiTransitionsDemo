@@ -77,7 +77,7 @@ public class Person extends SwApiObject implements JSONable {
             this.eyeColor = json.getString("eye_color");
             String[] urlParts = json.getString("url").split("/");
             this.id = Integer.parseInt(urlParts[urlParts.length -2]);
-            
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -8,6 +8,11 @@ public class SwApiDao {
     private static final String BASE_URL = "https://swapi.co/api/";
     private static final String PERSON_URL = BASE_URL + "people/";
     private static final String STARSHIP_URL = BASE_URL + "starships/";
+    private static final String PLANET_URL = BASE_URL + "planets/";
+
+    public interface SwApiCallback {
+        void processObject(SwApiObject object);
+    }
 
     // S04M03-5 write method to get person
     public static Person getPerson(int id) {
@@ -54,5 +59,35 @@ public class SwApiDao {
         }
 
         return object;
+    }
+
+    public static void getPlanet(final int id, final SwApiCallback callback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final String result = NetworkAdapter.httpRequest(PLANET_URL + id);
+
+                Planet object = null;
+                try {
+                    JSONObject json = new JSONObject(result);
+
+                    final String name = json.getString("name");
+                    final String rotationPeriod = json.getString("rotation_period");
+                    final String orbitalPeriod = json.getString("orbital_period");
+                    final String diameter = json.getString("diameter");
+                    final String climate = json.getString("climate");
+                    final String gravity = json.getString("gravity");
+                    final String terrain = json.getString("terrain");
+
+                    object = new Planet(id, name, rotationPeriod, orbitalPeriod, diameter,
+                            climate, gravity, terrain);
+                    object.setCategory(DrawableResolver.PLANET);
+                    callback.processObject(object);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

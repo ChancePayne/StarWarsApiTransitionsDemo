@@ -85,7 +85,7 @@ public class ItemListActivity extends AppCompatActivity {
 
     // S04M03-7 write a method to retrieve all the data
     private void getData() {
-        new Thread(new Runnable() {
+        /* new Thread(new Runnable() {
             @Override
             public void run() {
                 Person person;
@@ -107,30 +107,23 @@ public class ItemListActivity extends AppCompatActivity {
                     }
                 } while (person != null || failCount < 2);
             }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Starship starship;
+        }).start(); */
                 int         counter   = 1;
-                int         failCount = 0;
-                do {
-                    starship = SwApiDao.getStarship(counter++);
-                    if (starship != null) {
-                        swApiObjects.add(starship);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                viewAdapter.notifyItemChanged(swApiObjects.size() - 1);
+                    SwApiDao.getPlanet(counter++, new SwApiDao.SwApiCallback() {
+                        @Override
+                        public void processObject(SwApiObject object) {
+                            if (object != null) {
+                                swApiObjects.add(object);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        viewAdapter.notifyItemChanged(swApiObjects.size() - 1);
+                                    }
+                                });
                             }
-                        });
-                        failCount = 0;
-                    } else {
-                        ++failCount;
-                    }
-                } while (starship != null || failCount < 5);
-            }
-        }).start();
+                        }
+                    });
+
     }
 
     public static class SimpleItemRecyclerViewAdapter
