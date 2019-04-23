@@ -69,6 +69,7 @@ public class ItemDetailFragment extends Fragment {
                             DrawableResolver.getDrawableId(
                                     mItem.getCategory(),
                                     mItem.getId())));
+            ((TextView) rootView.findViewById(R.id.item_detail_text)).setText(mItem.toString());
         }
 
         return rootView;
