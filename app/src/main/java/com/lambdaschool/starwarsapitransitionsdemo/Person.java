@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 // S06M01 - 1 Add class which inherits from parent class
-public class Person extends SwApiObject {
+public class Person extends SwApiObject implements JSONable {
 
     private String height, mass, hairColor, skinColor, eyeColor;
 

@@ -85,7 +85,7 @@ public class ItemListActivity extends AppCompatActivity {
 
     // S04M03-7 write a method to retrieve all the data
     private void getData() {
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 Person person;
@@ -130,7 +130,24 @@ public class ItemListActivity extends AppCompatActivity {
                     }
                 } while (starship != null || failCount < 5);
             }
-        }).start();
+        }).start();*/
+
+        int counter = 1;
+        SwApiDao.getPlanet(counter++, new SwApiDao.SwApiCallback() {
+            @Override
+            public void processObject(SwApiObject object) {
+                if (object != null) {
+                    swApiObjects.add(object);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            viewAdapter.notifyItemChanged(swApiObjects.size() - 1);
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
     public static class SimpleItemRecyclerViewAdapter
@@ -180,7 +197,6 @@ public class ItemListActivity extends AppCompatActivity {
             mParentActivity = parent;
             mTwoPane = twoPane;
         }
-
 
 
         @Override
