@@ -25,6 +25,10 @@ public class NetworkAdapter {
     public static final String DELETE  = "DELETE";
     public static final String TRACE   = "TRACE";
 
+    interface NetworkCallback {
+        void processResult(String result);
+    }
+
     static String httpRequest(String urlString) {
         return httpRequest(urlString, GET, null, null);
     }
@@ -100,5 +104,14 @@ public class NetworkAdapter {
             }
         }
         return result;
+    }
+
+    public static void backgroundHttpRequest(final String urlString, final NetworkCallback callback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                callback.processResult(httpRequest(urlString));
+            }
+        }).start();
     }
 }
