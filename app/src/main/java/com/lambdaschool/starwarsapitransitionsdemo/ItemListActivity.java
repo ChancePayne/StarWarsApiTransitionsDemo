@@ -83,13 +83,12 @@ public class ItemListActivity extends AppCompatActivity {
         getData();
     }
 
-    // S04M03-7 write a method to retreive all the data
+    // S04M03-7 write a method to retrieve all the data
     private void getData() {
-
         new Thread(new Runnable() {
             @Override
             public void run() {
-                SwApiObject person    = null;
+                Person person;
                 int         counter   = 1;
                 int         failCount = 0;
                 do {
@@ -109,12 +108,10 @@ public class ItemListActivity extends AppCompatActivity {
                 } while (person != null || failCount < 2);
             }
         }).start();
-
-
         new Thread(new Runnable() {
             @Override
             public void run() {
-                SwApiObject starship    = null;
+                Starship starship;
                 int         counter   = 1;
                 int         failCount = 0;
                 do {
@@ -131,10 +128,9 @@ public class ItemListActivity extends AppCompatActivity {
                     } else {
                         ++failCount;
                     }
-                } while (starship != null || failCount < 3);
+                } while (starship != null || failCount < 5);
             }
         }).start();
-
     }
 
     public static class SimpleItemRecyclerViewAdapter
@@ -165,13 +161,10 @@ public class ItemListActivity extends AppCompatActivity {
                     Context context = view.getContext();
                     Intent  intent  = new Intent(context, ItemDetailActivity.class);
                     intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item);  // put object in intent
-
                     // S04M03-22 add options to make transition appear
                     Bundle options = ActivityOptions.makeSceneTransitionAnimation(
                             (Activity)view.getContext(),
-
                                                                                  ).toBundle();
-
                     context.startActivity(intent, options);
                 }
             }
@@ -185,10 +178,12 @@ public class ItemListActivity extends AppCompatActivity {
             mTwoPane = twoPane;
         }
 
+
+
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                                      .inflate(R.layout.item_list_content, parent, false);
+                    .inflate(R.layout.item_list_content, parent, false);
             return new ViewHolder(view);
         }
 
@@ -220,8 +215,8 @@ public class ItemListActivity extends AppCompatActivity {
                         ItemDetailFragment fragment = new ItemDetailFragment();
                         fragment.setArguments(arguments);
                         mParentActivity.getSupportFragmentManager().beginTransaction()
-                                       .replace(R.id.item_detail_container, fragment)
-                                       .commit();
+                                .replace(R.id.item_detail_container, fragment)
+                                .commit();
                     } else {
                         Context context = view.getContext();
                         Intent  intent  = new Intent(context, ItemDetailActivity.class);
@@ -234,7 +229,7 @@ public class ItemListActivity extends AppCompatActivity {
                                 (Activity) view.getContext(),
                                 holder.mImageView,
                                 ViewCompat.getTransitionName(holder.mImageView)
-                                                                                     ).toBundle();
+                        ).toBundle();
 
                         context.startActivity(intent, options);
                     }

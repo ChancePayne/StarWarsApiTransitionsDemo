@@ -51,9 +51,9 @@ public class ItemDetailFragment extends Fragment {
                             mItem.getCategory(),
                             mItem.getId())));*/
             if (appBarLayout != null) {
-                if (mItem instanceof Person) {
+                if(mItem.getCategory().equals(DrawableResolver.CHARACTER)) {
                     appBarLayout.setTitle(mItem.getName());
-                } else if (mItem instanceof Starship) {
+                } else if (mItem.getCategory().equals(DrawableResolver.STARSHIP)) {
                     appBarLayout.setTitle(((Starship) mItem).getCostInCredits());
                 }
             }
@@ -74,7 +74,8 @@ public class ItemDetailFragment extends Fragment {
                                     mItem.getCategory(),
                                     mItem.getId())));
 
-            ((TextView)rootView.findViewById(R.id.item_text)).setText(mItem.toString());
+
+            ((TextView) rootView.findViewById(R.id.item_text)).setText(mItem.toString());
         }
 
         return rootView;

@@ -2,6 +2,13 @@ package com.lambdaschool.starwarsapitransitionsdemo;
 
 public class Starship extends SwApiObject {
 
+    /*
+    * "model": "DS-1 Orbital Battle Station",
+	"manufacturer": "Imperial Department of Military Research, Sienar Fleet Systems",
+	"cost_in_credits": "1000000000000",
+	"length": "120000",
+    * */
+
     private String model, manufacturer, costInCredits, length;
 
     public Starship(int id, String name) {
@@ -34,7 +41,6 @@ public class Starship extends SwApiObject {
 
     @Override
     public String toString() {
-        return String.format("The %s, model %s,manufactured by %s is %s meters in length and built at a cost of %s credits.",
-                name, model, manufacturer, length, costInCredits);
+        return String.format("The %s, model %s is manufactured by %s is %s meters in length built at a cost of %s credits.", name, model, manufacturer, length, costInCredits);
     }
 }
