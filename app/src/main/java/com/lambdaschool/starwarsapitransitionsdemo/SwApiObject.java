@@ -3,8 +3,8 @@ package com.lambdaschool.starwarsapitransitionsdemo;
 import java.io.Serializable;
 
 // S04M03-3 Add Model Object
-public abstract class SwApiObject implements Serializable {
-    private int id;
+public abstract class SwApiObject implements Serializable, JSONable {
+    protected int id;
     protected String category, name;
 
     public SwApiObject(int id, String name) {

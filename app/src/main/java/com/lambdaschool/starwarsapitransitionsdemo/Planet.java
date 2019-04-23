@@ -1,6 +1,8 @@
 package com.lambdaschool.starwarsapitransitionsdemo;
 
-public class Planet extends SwApiObject {
+import org.json.JSONObject;
+
+public class Planet extends SwApiObject implements JSONable{
 
     private String rotationPeriod, orbitalPeriod, diamet, climate, gravity, terrain;
 
@@ -42,5 +44,10 @@ public class Planet extends SwApiObject {
     @Override
     public String toString() {
         return null;
+    }
+
+    @Override
+    public void fromJsonString(String jsonString) {
+
     }
 }
