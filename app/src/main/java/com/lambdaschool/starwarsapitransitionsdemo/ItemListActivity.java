@@ -137,14 +137,14 @@ public class ItemListActivity extends AppCompatActivity {
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final ItemListActivity  mParentActivity;
+        private final ItemListActivity mParentActivity;
         private final List<SwApiObject> mValues;
-        private final boolean           mTwoPane;
+        private final boolean mTwoPane;
 
         // S04M03-16 set the position value
         private int lastPosition = -1;
 
-        /*private final View.OnClickListener         mOnClickListener = new View.OnClickListener() {
+        {  /*private final View.OnClickListener         mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // S04M03-17 update click listener to pass our object
@@ -173,7 +173,7 @@ public class ItemListActivity extends AppCompatActivity {
                 }
             }
         };*/
-
+    }
         SimpleItemRecyclerViewAdapter(ItemListActivity parent,
                                       List<SwApiObject> items,
                                       boolean twoPane) {
