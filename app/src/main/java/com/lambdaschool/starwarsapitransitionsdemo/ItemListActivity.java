@@ -88,7 +88,7 @@ public class ItemListActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                 Person person;
+                Person person;
                 int         counter   = 1;
                 int         failCount = 0;
                 do {
