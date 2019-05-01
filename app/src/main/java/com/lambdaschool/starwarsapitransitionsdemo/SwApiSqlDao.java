@@ -16,12 +16,27 @@ public class SwApiSqlDao {
         db = dbHelper.getWritableDatabase();
     }
 
+    public List<Planet> getPlanetsBySize(int min, int max) {
+//        select * from planets where diameter between 11700 and 14700
+        final Cursor cursor = db.rawQuery("SELECT * FROM " + SwApiDbContract.PlanetsEntry.TABLE_NAME + " WHERE diameter BETWEEN ? AND ?", new String[]{Integer.toString(min), Integer.toString(max)});
+
+        List<Planet> rows = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            rows.add(getPlanetFromCursor(cursor));
+        }
+        return rows;
+    }
+
     public Planet getPlanet(int i) {
-        final Cursor cursor = db.rawQuery("SELECT * FROM d" + SwApiDbContract.PlanetsEntry.TABLE_NAME + " WHERE _id=?", new String[]{Integer.toString(i)});
+        final Cursor cursor = db.rawQuery("SELECT * FROM " + SwApiDbContract.PlanetsEntry.TABLE_NAME + " WHERE _id=?", new String[]{Integer.toString(i)});
 
 //        int id, String name, String rotationPeriod, String orbitalPeriod, String diameter, String climate, String gravity, String terrain
         cursor.moveToFirst();
 
+        return getPlanetFromCursor(cursor);
+    }
+
+    private Planet getPlanetFromCursor(Cursor cursor) {
         int index = cursor.getColumnIndexOrThrow(SwApiDbContract.PlanetsEntry._ID);
         int id    = cursor.getInt(index);
 
@@ -62,7 +77,7 @@ public class SwApiSqlDao {
         int affectedRows = db.update(
                 SwApiDbContract.PeopleEntry.TABLE_NAME,
                 getContentValues(person),
-                SwApiDbContract.PeopleEntry._ID + "=?",
+                SwApiDbContract.PeopleEntry._ID + "=?",  //id=1
                 new String[]{Integer.toString(person.getId())});
     }
 
