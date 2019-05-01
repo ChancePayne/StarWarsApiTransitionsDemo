@@ -1,6 +1,6 @@
 package com.lambdaschool.starwarsapitransitionsdemo;
 
 public interface JSONable {
-    public String toJsonString();
-    public void fromJsonString(String jsonString);
+    String toJsonString();
+    void fromJsonString(String jsonString);
 }
