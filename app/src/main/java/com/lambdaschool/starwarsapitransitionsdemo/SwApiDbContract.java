@@ -2,7 +2,7 @@ package com.lambdaschool.starwarsapitransitionsdemo;
 
 import android.provider.BaseColumns;
 
-public class SwApiDbContact {
+public class SwApiDbContract {
     public static class PlanetsEntry implements BaseColumns {
         public static final String TABLE_NAME                  = "planets";
         public static final String COLUMN_NAME_NAME            = "name";

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
@@ -47,6 +48,10 @@ public class ItemListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
+
+
+        SwApiDbHelper helper = new SwApiDbHelper(this);
+        final SQLiteDatabase writableDatabase = helper.getWritableDatabase();
 
         swApiObjects = new ArrayList<>();
 
