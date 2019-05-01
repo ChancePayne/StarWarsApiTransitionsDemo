@@ -41,6 +41,10 @@ public class Person extends SwApiObject implements JSONable {
         return eyeColor;
     }
 
+    public void setEyeColor(String eyeColor) {
+        this.eyeColor = eyeColor;
+    }
+
     @Override
     public String toString() {
         return String.format("%s, is %scm tall, they have %s skin, and %s hair with %s eyes.",

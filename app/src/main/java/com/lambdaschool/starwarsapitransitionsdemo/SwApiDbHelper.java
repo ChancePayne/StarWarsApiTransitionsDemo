@@ -9,8 +9,8 @@ import android.support.annotation.RequiresApi;
 
 public class SwApiDbHelper extends SQLiteOpenHelper {
 
-    public static final int    DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME    = "SwApiDatabase.db";
+    private static final int    DATABASE_VERSION = 2;
+    private static final String DATABASE_NAME    = "SwApiDatabase.db";
 
     public SwApiDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -50,7 +50,7 @@ public class SwApiDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public void populateStarterData(SQLiteDatabase db) {
+    private void populateStarterData(SQLiteDatabase db) {
         db.execSQL(String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)" +
                    "VALUES (2, \"Alderaan\", 24, 364, 12500, \"temperate\", \"1 standard\", \"grasslands, mountains\", 40, 2000000000);",
                                  SwApiDbContract.PlanetsEntry.TABLE_NAME,
@@ -112,7 +112,7 @@ public class SwApiDbHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO species (name, classification, designation, average_height, skin_colors, hair_colors,eye_colors, average_lifespan, native_language)\n" +
         "VALUES (\"Trandoshan\", \"reptile\", \"sentient\", 200, \"brown, green\", \"none\",\"yellow, orange\", \"unknown\", \"Dosh\");");
 
-        db.execSQL(String.format("\tINSERT INTO %s(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES (84, \"Finn\", -1, -1, \"black\", \"dark\", \"dark\", \"unknown\", \"male\", 28); ",
+        /*db.execSQL(String.format("\tINSERT INTO %s(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES (84, \"Finn\", -1, -1, \"black\", \"dark\", \"dark\", \"unknown\", \"male\", 28); ",
                                  SwApiDbContract.PeopleEntry.TABLE_NAME,
                                  SwApiDbContract.PeopleEntry._ID,
                                  SwApiDbContract.PeopleEntry.COLUMN_NAME_NAME,
@@ -214,6 +214,6 @@ public class SwApiDbHelper extends SQLiteOpenHelper {
                                  SwApiDbContract.PeopleEntry.COLUMN_NAME_EYE_COLOR,
                                  SwApiDbContract.PeopleEntry.COLUMN_NAME_BIRTH_YEAR,
                                  SwApiDbContract.PeopleEntry.COLUMN_NAME_GENDER,
-                                 SwApiDbContract.PeopleEntry.COLUMN_NAME_HOMEWORLD));
+                                 SwApiDbContract.PeopleEntry.COLUMN_NAME_HOMEWORLD));*/
     }
 }

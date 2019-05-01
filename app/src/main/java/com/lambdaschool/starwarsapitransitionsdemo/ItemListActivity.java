@@ -44,14 +44,19 @@ public class ItemListActivity extends AppCompatActivity {
     private ArrayList<SwApiObject>        swApiObjects;
     private SimpleItemRecyclerViewAdapter viewAdapter;
 
+    private SwApiSqlDao dbDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
-
-        SwApiDbHelper helper = new SwApiDbHelper(this);
-        final SQLiteDatabase writableDatabase = helper.getWritableDatabase();
+        dbDao = new SwApiSqlDao(this);
+        List<Person> allPeople = dbDao.getAllPeople();
+//        dbDao.deletePerson(allPeople.get(0));
+        allPeople.get(4).setEyeColor("Rainbow");
+        dbDao.updatePerson(allPeople.get(4));
+        allPeople = dbDao.getAllPeople();
 
         swApiObjects = new ArrayList<>();
 
@@ -90,7 +95,7 @@ public class ItemListActivity extends AppCompatActivity {
 
     // S04M03-7 write a method to retrieve all the data
     private void getData() {
-        /*new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 Person person;
@@ -100,6 +105,7 @@ public class ItemListActivity extends AppCompatActivity {
                     person = SwApiDao.getPerson(counter++);
                     if (person != null) {
                         swApiObjects.add(person);
+//                        dbDao.createPerson(person);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -108,12 +114,13 @@ public class ItemListActivity extends AppCompatActivity {
                         });
                         failCount = 0;
                     } else {
+                        final List<Person> allPeople = dbDao.getAllPeople();
                         ++failCount;
                     }
                 } while (person != null || failCount < 2);
             }
         }).start();
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 Starship starship;
@@ -135,7 +142,7 @@ public class ItemListActivity extends AppCompatActivity {
                     }
                 } while (starship != null || failCount < 5);
             }
-        }).start();*/
+        }).start();
 
         int counter = 1;
         SwApiDao.getPlanet(counter++, new SwApiDao.SwApiCallback() {
@@ -151,7 +158,7 @@ public class ItemListActivity extends AppCompatActivity {
                     });
                 }
             }
-        });
+        });*/
 
     }
 
