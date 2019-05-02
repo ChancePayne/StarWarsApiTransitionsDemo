@@ -52,10 +52,11 @@ public class ItemListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_list);
 
         dbDao = new SwApiSqlDao(this);
-        dbDao.getPlanetsBySize(11700, 13700);
-        /*List<Person> allPeople = dbDao.getAllPeople();
+//        dbDao.getPlanetsBySize(11700, 13700);
+//        List<Person> allPeople = dbDao.getAllPeople();
+        final List<Planet> allPlanets = dbDao.getAllPlanets();
 //        dbDao.deletePerson(allPeople.get(0));
-        allPeople.get(4).setEyeColor("Rainbow");
+        /*allPeople.get(4).setEyeColor("Rainbow");
         dbDao.updatePerson(allPeople.get(4));
         allPeople = dbDao.getAllPeople();*/
 
