@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--S09M02-4 define menu-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <!--<item android:title="Category">-->
         <group android:checkableBehavior="single">
