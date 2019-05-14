@@ -99,7 +99,7 @@ public class SwApiDbHelper extends SQLiteOpenHelper {
 
         db.execSQL(String.format("INSERT INTO %s(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)" +
                                  "VALUES " +
-                                 "('Yoda''s species', 'mammal', 'sentient', 66, 'green, yellow', 'borwn, white', 'brown, green, yellow', 900, 'Galactic basic')," +
+                                 "('Yoda''s species', 'mammal', 'sentient', 66, 'green, yellow', 'brown, white', 'brown, green, yellow', 900, 'Galactic basic')," +
                                  "(\"Hutt\", \"gastropod\", \"sentient\", 300, \"green, brown, tan\", \"n/a\", \"yellow, red\", 1000, \"Huttese\")" +
                                  "(\"Trandoshan\", \"reptile\", \"sentient\", 200, \"brown, green\", \"none\",\"yellow, orange\", \"unknown\", \"Dosh\");",
                                  SwApiDbContract.SpeciesEntry.TABLE_NAME,

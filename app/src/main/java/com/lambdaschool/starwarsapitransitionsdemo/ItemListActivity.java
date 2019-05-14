@@ -44,23 +44,11 @@ public class ItemListActivity extends AppCompatActivity {
     private ArrayList<SwApiObject>        swApiObjects;
     private SimpleItemRecyclerViewAdapter viewAdapter;
 
-    private SwApiSqlDao dbDao;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
-        dbDao = new SwApiSqlDao(this);
-//        dbDao.getPlanetsBySize(11700, 13700);
-//        List<Person> allPeople = dbDao.getAllPeople();
-        final List<Planet> allPlanets = dbDao.getAllPlanets();
-//        dbDao.deletePerson(allPeople.get(0));
-        /*allPeople.get(4).setEyeColor("Rainbow");
-        dbDao.updatePerson(allPeople.get(4));
-        allPeople = dbDao.getAllPeople();*/
-
-        swApiObjects = new ArrayList<>();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,6 +62,8 @@ public class ItemListActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        swApiObjects = new ArrayList<>();
 
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
@@ -116,7 +106,7 @@ public class ItemListActivity extends AppCompatActivity {
                         });
                         failCount = 0;
                     } else {
-                        final List<Person> allPeople = dbDao.getAllPeople();
+//                        final List<Person> allPeople = dbDao.getAllPeople();
                         ++failCount;
                     }
                 } while (person != null || failCount < 2);
