@@ -40,6 +40,10 @@ import java.util.List;
 // S04M03-6 replace all references to dummycontent with out model object
 public class ItemListActivity extends AppCompatActivity {
 
+    private static final int TYPE_PEOPLE    = 1;
+    private static final int TYPE_PLANETS   = 2;
+    private static final int TYPE_STARSHIPS = 3;
+
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -48,6 +52,10 @@ public class ItemListActivity extends AppCompatActivity {
 
     private ArrayList<SwApiObject>        swApiObjects;
     private SimpleItemRecyclerViewAdapter viewAdapter;
+
+    private DrawerLayout drawerLayout;
+
+    private int currentType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,15 +68,12 @@ public class ItemListActivity extends AppCompatActivity {
         toolbar.setTitle(getTitle());
 
 //        S09M02-3 get handle to drawer layout and bind to toolbar toggle
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
 
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-
-
 
 
         swApiObjects = new ArrayList<>();
@@ -92,15 +97,20 @@ public class ItemListActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 menuItem.setChecked(true);
                 Toast.makeText(getBaseContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                swApiObjects.clear();
+                viewAdapter.notifyDataSetChanged();
                 switch (menuItem.getItemId()) {
                     case R.id.nav_category_people:
+                        getData(TYPE_PEOPLE);
                         break;
                     case R.id.nav_category_planets:
+                        getData(TYPE_PLANETS);
                         break;
                     case R.id.nav_category_starships:
+                        getData(TYPE_STARSHIPS);
                         break;
                 }
-
+                drawerLayout.closeDrawers();
                 return true;
             }
         });
@@ -110,76 +120,83 @@ public class ItemListActivity extends AppCompatActivity {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         viewAdapter = new SimpleItemRecyclerViewAdapter(this, swApiObjects, mTwoPane);
         recyclerView.setAdapter(viewAdapter);
-        getData();
+//        getData();
     }
 
     // S04M03-7 write a method to retrieve all the data
-    private void getData() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Person person;
-                int         counter   = 1;
-                int         failCount = 0;
-                do {
-                    person = SwApiDao.getPerson(counter++);
-                    if (person != null) {
-                        swApiObjects.add(person);
+    private void getData(int type) {
+        currentType = type;
+        switch (type) {
+            case TYPE_PEOPLE:
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Person person;
+                        int    counter   = 1;
+                        int    failCount = 0;
+                        do {
+                            person = SwApiDao.getPerson(counter++);
+                            if (person != null && currentType == TYPE_PEOPLE) {
+                                swApiObjects.add(person);
 //                        dbDao.createPerson(person);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                viewAdapter.notifyItemChanged(swApiObjects.size() - 1);
-                            }
-                        });
-                        failCount = 0;
-                    } else {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        viewAdapter.notifyItemChanged(swApiObjects.size() - 1);
+                                    }
+                                });
+                                failCount = 0;
+                            } else {
 //                        final List<Person> allPeople = dbDao.getAllPeople();
-                        ++failCount;
-                    }
-                } while (person != null || failCount < 2);
-            }
-        }).start();
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Starship starship;
-                int         counter   = 1;
-                int         failCount = 0;
-                do {
-                    starship = SwApiDao.getStarship(counter++);
-                    if (starship != null) {
-                        swApiObjects.add(starship);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                viewAdapter.notifyItemChanged(swApiObjects.size() - 1);
+                                ++failCount;
                             }
-                        });
-                        failCount = 0;
-                    } else {
-                        ++failCount;
+                        } while ((person != null || failCount < 2) && currentType == TYPE_PEOPLE);
                     }
-                } while (starship != null || failCount < 5);
-            }
-        }).start();
-
-        int counter = 1;
-        SwApiDao.getPlanet(counter++, new SwApiDao.SwApiCallback() {
-            @Override
-            public void processObject(SwApiObject object) {
-                if (object != null) {
-                    swApiObjects.add(object);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            viewAdapter.notifyItemChanged(swApiObjects.size() - 1);
+                }).start();
+                break;
+            case TYPE_PLANETS:
+                int counter = 1;
+                SwApiDao.getPlanet(counter++, new SwApiDao.SwApiCallback() {
+                    @Override
+                    public void processObject(SwApiObject object) {
+                        if (object != null) {
+                            swApiObjects.add(object);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    viewAdapter.notifyItemChanged(swApiObjects.size() - 1);
+                                }
+                            });
                         }
-                    });
-                }
-            }
-        });*/
-
+                    }
+                });
+                break;
+            case TYPE_STARSHIPS:
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Starship starship;
+                        int         counter   = 1;
+                        int         failCount = 0;
+                        do {
+                            starship = SwApiDao.getStarship(counter++);
+                            if (starship != null) {
+                                swApiObjects.add(starship);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        viewAdapter.notifyItemChanged(swApiObjects.size() - 1);
+                                    }
+                                });
+                                failCount = 0;
+                            } else {
+                                ++failCount;
+                            }
+                        } while (starship != null || failCount < 5);
+                    }
+                }).start();
+                break;
+        }
     }
 
     public static class SimpleItemRecyclerViewAdapter
