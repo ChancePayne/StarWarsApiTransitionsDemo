@@ -5,6 +5,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -17,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -123,36 +127,50 @@ public class ItemListActivity extends AppCompatActivity {
 //        getData();
     }
 
+    class PeopleGetter implements Runnable {
+
+        int start, offset;
+
+        public PeopleGetter(int start, int offset) {
+            this.start = start;
+            this.offset = offset;
+        }
+
+        @Override
+        public void run() {
+            Person person;
+            int    counter   = start;
+            int    failCount = 0;
+            do {
+                person = SwApiDao.getPerson(counter);
+                counter += offset;
+
+                if (person != null && currentType == TYPE_PEOPLE) {
+                    swApiObjects.add(person);
+//                        dbDao.createPerson(person);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            viewAdapter.notifyItemChanged(swApiObjects.size() - 1);
+                        }
+                    });
+                    failCount = 0;
+                } else {
+//                        final List<Person> allPeople = dbDao.getAllPeople();
+                    ++failCount;
+                }
+            } while ((person != null || failCount < 2) && currentType == TYPE_PEOPLE);
+        }
+    }
+
     // S04M03-7 write a method to retrieve all the data
     private void getData(int type) {
         currentType = type;
         switch (type) {
             case TYPE_PEOPLE:
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Person person;
-                        int    counter   = 1;
-                        int    failCount = 0;
-                        do {
-                            person = SwApiDao.getPerson(counter++);
-                            if (person != null && currentType == TYPE_PEOPLE) {
-                                swApiObjects.add(person);
-//                        dbDao.createPerson(person);
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        viewAdapter.notifyItemChanged(swApiObjects.size() - 1);
-                                    }
-                                });
-                                failCount = 0;
-                            } else {
-//                        final List<Person> allPeople = dbDao.getAllPeople();
-                                ++failCount;
-                            }
-                        } while ((person != null || failCount < 2) && currentType == TYPE_PEOPLE);
-                    }
-                }).start();
+                for(int i = 0; i < 5; ++i) {
+                    new Thread(new PeopleGetter(i+1, 5)).start();
+                }
                 break;
             case TYPE_PLANETS:
                 int counter = 1;
@@ -197,6 +215,75 @@ public class ItemListActivity extends AppCompatActivity {
                 }).start();
                 break;
         }
+    }
+
+    /**
+     * Initialize the contents of the Activity's standard options menu.  You
+     * should place your menu items in to <var>menu</var>.
+     *
+     * <p>This is only called once, the first time the options menu is
+     * displayed.  To update the menu every time it is displayed, see
+     * {@link #onPrepareOptionsMenu}.
+     *
+     * <p>The default implementation populates the menu with standard system
+     * menu items.  These are placed in the {@link Menu#CATEGORY_SYSTEM} group so that
+     * they will be correctly ordered with application-defined menu items.
+     * Deriving classes should always call through to the base implementation.
+     *
+     * <p>You can safely hold on to <var>menu</var> (and any items created
+     * from it), making modifications to it as desired, until the next
+     * time onCreateOptionsMenu() is called.
+     *
+     * <p>When you add items to the menu, you can implement the Activity's
+     * {@link #onOptionsItemSelected} method to handle them there.
+     *
+     * @param menu The options menu in which you place your items.
+     * @return You must return true for the menu to be displayed;
+     * if you return false it will not be shown.
+     * @see #onPrepareOptionsMenu
+     * @see #onOptionsItemSelected
+     */
+//    S09M02-7 add our menu to the toolbar menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.sort_menu, menu);
+        return true;
+    }
+
+    /**
+     * This hook is called whenever an item in your options menu is selected.
+     * The default implementation simply returns false to have the normal
+     * processing happen (calling the item's Runnable or sending a message to
+     * its Handler as appropriate).  You can use this method for any items
+     * for which you would like to do processing without those other
+     * facilities.
+     *
+     * <p>Derived classes should call through to the base class for it to
+     * perform the default menu handling.</p>
+     *
+     * @param menuItem The menu item that was selected.
+     * @return boolean Return false to allow normal menu processing to
+     * proceed, true to consume it here.
+     * @see #onCreateOptionsMenu
+     */
+    @Override
+    //    S09M02-8 add logic to listener
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if(menuItem.getItemId() == R.id.menu_sort) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                swApiObjects.sort(null);
+                swApiObjects.sort(new Comparator<SwApiObject>() {
+                    @Override
+                    public int compare(SwApiObject o1, SwApiObject o2) {
+//                        return o2.getName().compareTo(o1.getName());
+                        return SwApiObject.compareNames(o1, o2);
+                    }
+                });
+                viewAdapter.notifyDataSetChanged();
+            }
+        }
+        return true;
     }
 
     public static class SimpleItemRecyclerViewAdapter
